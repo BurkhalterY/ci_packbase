@@ -15,8 +15,8 @@ class Auth extends MY_Controller {
 	}
 
 	public function login() {
-		$this->form_validation->set_rules('username', 'Nom d\'utilisateur', 'required');
-		$this->form_validation->set_rules('password', 'Mot de passe', 'required');
+		$this->form_validation->set_rules('username', lang('username'), 'required');
+		$this->form_validation->set_rules('password', lang('password'), 'required');
 
 		if ($this->form_validation->run()) {
 
@@ -33,14 +33,14 @@ class Auth extends MY_Controller {
 			$error = true;
 		}
 
-		$this->display_view('auth/login', ['title' => 'Connexion', 'valid' => isset($error)]);
+		$this->display_view('auth/login', ['title' => lang('title_login'), 'valid' => isset($error)]);
 	}
 
 	public function register() {
-		$this->form_validation->set_rules('username', 'Nom d\'utilisateur', 'required|is_unique[users.username]');
-		$this->form_validation->set_rules('email', 'Adresse e-mail', 'required|valid_email|is_unique[users.email]');
-		$this->form_validation->set_rules('password', 'Mot de passe', 'required|min_length[8]');
-		$this->form_validation->set_rules('passconf', 'Confirmation de mot de passe', 'required|matches[password]');
+		$this->form_validation->set_rules('username', lang('username'), 'required|is_unique[users.username]');
+		$this->form_validation->set_rules('email', lang('email'), 'required|valid_email|is_unique[users.email]');
+		$this->form_validation->set_rules('password', lang('password'), 'required|min_length[8]');
+		$this->form_validation->set_rules('passconf', lang('passconf'), 'required|matches[password]');
 
 		if ($this->form_validation->run()) {
 			$user = [
@@ -53,15 +53,15 @@ class Auth extends MY_Controller {
 
 			$_SESSION['is_logged'] = true;
 			$_SESSION['user_id'] = $this->db->insert_id();
-			$_SESSION['user_access'] = $user->fk_user_type;
+			$_SESSION['user_access'] = ACCESS_LVL_REGISTERED;
 			redirect($_SESSION['after_login_redirect'] ?? '');
 		}
 
-		$this->display_view('auth/register', ['title' => 'Inscription']);
+		$this->display_view('auth/register', ['title_title' => lang('register')]);
 	}
 
 	public function logout() {
 		session_destroy();
-		redirect('auth');
+		redirect('auth/login');
 	}
 }
