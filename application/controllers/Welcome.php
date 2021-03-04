@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends MY_Controller {
 
+	protected $access_level = "*";
+
 	/**
 	 * Index Page for this controller.
 	 *

@@ -22,7 +22,7 @@ class MY_Controller extends CI_Controller
 	protected function ask_for_login()
 	{
 		$_SESSION['after_login_redirect'] = current_url();
-		redirect("auth/login");
+		redirect('auth/login');
 	}
 
 	protected function check_permission($required_level = NULL)
@@ -33,7 +33,7 @@ class MY_Controller extends CI_Controller
 
 		if ($required_level == "*") {
 			return true;
-		} else if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) {
+		} else if (!isset($_SESSION['is_logged']) || $_SESSION['is_logged'] != true) {
 			$this->ask_for_login();
 		} else if ($required_level == "@") {
 			return true;
